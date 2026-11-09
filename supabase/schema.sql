@@ -7,6 +7,7 @@ create table if not exists public.profiles (
  id uuid primary key references auth.users(id) on delete cascade,
  display_name text not null default '',
  avatar_url text,
+ bio text,
  created_at timestamptz not null default now()
 );
 create table if not exists public.museum_admins (
@@ -93,7 +94,7 @@ create trigger museum_new_user after insert on auth.users for each row execute f
 -- Authenticated clients may update profile display fields, never role/membership.
 revoke all on public.profiles from anon, authenticated;
 grant select on public.profiles to anon, authenticated;
-grant update(display_name,avatar_url) on public.profiles to authenticated;
+grant update(display_name,avatar_url,bio) on public.profiles to authenticated;
 grant select on public.museum_admins to authenticated;
 grant select on public.teachers, public.events, public.event_photos, public.exhibition_categories, public.milestones, public.exhibits to anon, authenticated;
 grant insert,update,delete on public.teachers, public.events, public.event_photos, public.exhibition_categories, public.milestones, public.exhibits to authenticated;
