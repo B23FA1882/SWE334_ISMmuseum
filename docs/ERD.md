@@ -7,7 +7,7 @@ erDiagram
     AUTH_USERS ||--o{ EXHIBITS : creates
     EVENTS ||--o{ EVENT_PHOTOS : contains
     AUTH_USERS { uuid id PK }
-    PROFILES { uuid id PK, text display_name, text avatar_url }
+    PROFILES { uuid id PK, text display_name, text avatar_url, text bio }
     MUSEUM_ADMINS { uuid user_id PK }
     EXHIBITS { uuid id PK, uuid creator_id FK, text title, text description, text image_url, text category, text_array technology_stack, int year_created, text demo_url, text github_url, text status }
     TEACHERS { text id PK, text name, text position, text_array courses, text bio, text photo_url }
