@@ -9,6 +9,7 @@
 - Хэрэглэгчийн өгсөн 1964–2005 оны түүхээр эхэлсэн **ISM Time Machine** интерактив timeline
 - 21st.dev-ийн хэрэглэгчийн өгсөн Circular Gallery-г JavaScript JSX болгон өөрчилсөн 3D зурагт цомог
 - Оюутны үзмэрийг нэр, он, ангилал, технологиор хайх, шүүх
+- **ISM Creators**: нийтлэгдсэн бүтээлтэй оюутны нэр, профайл зураг, товч намтар, бүтээлийн холбоос; Studio-оос профайлаа засах
 - Supabase Auth бүртгэл, нэвтрэлт, гаралт
 - Бүтээл нэмэх, засах, устгах болон зураг Supabase Storage-д оруулах (5MB хүртэл)
 - Админ бүтээлийг батлах, буцаах; багш, арга хэмжээ CRUD
@@ -58,7 +59,7 @@ on conflict do nothing;
 
 | Хүснэгт | Primary key | Foreign key | Зориулалт |
 |---|---|---|---|
-| `profiles` | `id` (uuid) | `id → auth.users.id` | Хэрэглэгчийн нэр, зураг |
+| `profiles` | `id` (uuid) | `id → auth.users.id` | Хэрэглэгчийн нэр, зураг, товч намтар (`bio`) |
 | `museum_admins` | `user_id` | `user_id → auth.users.id` | Админы эрхийн trusted хүснэгт |
 | `exhibits` | `id` | `creator_id → auth.users.id` | Оюутны бүтээл; status: draft, pending, published |
 | `teachers` | `id` | — | Багшийн профайл |
