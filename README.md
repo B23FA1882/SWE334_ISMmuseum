@@ -61,14 +61,17 @@ on conflict do nothing;
 |---|---|---|---|
 | `profiles` | `id` (uuid) | `id → auth.users.id` | Хэрэглэгчийн нэр, зураг, товч намтар (`bio`) |
 | `museum_admins` | `user_id` | `user_id → auth.users.id` | Админы эрхийн trusted хүснэгт |
-| `exhibits` | `id` | `creator_id → auth.users.id` | Оюутны бүтээл; status: draft, pending, published |
-| `teachers` | `id` | — | Багшийн профайл |
-| `events` | `id` | — | Арга хэмжээ |
+| `exhibits` | `id` | `creator_id → auth.users.id, profiles.id`; `category_id → exhibition_categories.id` | Оюутны бүтээл, баталгаажуулах төлөв |
+| `teachers` | `id` | — | Багшийн профайл; events хүснэгтээс хариуцагчаар холбогдоно |
+| `events` | `id` | `coordinator_teacher_id → teachers.id`; `created_by → profiles.id` | Арга хэмжээ, хариуцсан багш болон бичлэг оруулсан хэрэглэгч |
 | `event_photos` | `id` | `event_id → events.id` | Арга хэмжээний зургийн цомог |
-| `exhibition_categories` | `id` | — | Үзэсгэлэнгийн ангиллууд |
-| `milestones` | `id` | — | Түүхэн онцлох үе шат |
+| `exhibition_categories` | `id` | — | Үзэсгэлэнгийн ангилал; exhibits.category_id-ээр холбогдоно |
+| `milestones` | `id` | `related_event_id → events.id` | Түүхэн үйл явдал, холбогдох арга хэмжээ (сонголтот) |
 
-ERD-г `docs/ERD.md`-д оруулсан.
+**9 бодит FK constraint**, 8 public хүснэгтэд RLS. ERD-г `docs/ERD.md`-д шинэчилсэн.
+Нэмэлт FK-г одоогийн Supabase төсөлд хэрэгжүүлсэн; дахин сэргээх SQL: `supabase/connect_relationships.sql`.
+Сонголтот `events.coordinator_teacher_id`, `events.created_by`, `milestones.related_event_id` талбаруудыг баталгаатай мэдээлэлгүй түүхэн мөрүүд дээр `NULL` үлдээсэн.
+React Studio нь үзмэрийн ангиллыг `exhibition_categories`-ээс сонгож `category_id`-д хадгалдаг, админ хариуцсан багшийг сонгож болно.
 
 ### RLS зан төлөв
 
