@@ -112,10 +112,18 @@ SWE_ISMmuseum/
 
 Эх сурвалжид “2025 оны Бүтээлийн Уралдаан” постын гарчиг `2025.04.25`, постерын үйл ажиллагааны огноо `2025.04.24` байсан тул `2025-04-24`-ийг сонгосон. “2025 оны Password Day” текстэд `2025.01.05` ба 5 сарын 1-ний мэдээлэл хамт байсан тул зургийн арга хэмжээний тайлбарын `2025-05-01`-ийг ашигласан. Баталгаажуулах шаардлагатай.
 
-## Хөгжүүлэлтийн статус
+## Холбогдсон production орчин (2026-11-09)
 
-- Код болон schema бэлтгэгдсэн, **шинэ Supabase project-д ажиллуулаагүй**.
-- Эцсийн production URL нь таны Vercel төслийг импортлон амжилттай deploy хийсний дараа үүснэ.
-- `npm install`/`npm run build`-ийг dependency internet хязгаарлагдсан энэ орчинд бүрэн ажиллуулан баталгаажуулаагүй.
+- **GitHub:** https://github.com/B23FA1882/SWE334_ISMmuseum (main)
+- **Vercel:** https://swe334ismmuseum.vercel.app — `swe334_ismmuseum`, Vite, Node.js 22
+- **Supabase:** `SWE334_ISMmuseum` (`eycvjafolcdyjrpjxxqh`) — 8 public хүснэгт, `museum-assets` Storage bucket, RLS policies
+- **Бодит seed өгөгдөл:** 10 багш, 6 арга хэмжээ, 6 цомгийн бичлэг, 4 timeline milestone, 6 үзэсгэлэнгийн ангилал
+- **Vercel environment:** `VITE_SUPABASE_URL` ба `VITE_SUPABASE_PUBLISHABLE_KEY` production / preview / development орчинд тохируулсан
+- Vercel production Git deploy `READY` болсон. Браузерын E2E, email verification, 2 хэрэглэгчийн RLS тестийг хараахан гүйцэтгээгүй.
 
-Лиценз: сургалтын зорилгоор. Зургийн эрхийг агуулга эзэмшигчээс тодруулна уу.
+### Сүүлчийн тохируулах 2 зүйл
+
+1. Supabase dashboard → Authentication → URL Configuration: Site URL = `https://swe334ismmuseum.vercel.app`, Redirect URLs-д `https://swe334ismmuseum.vercel.app/**` ба `http://localhost:5173/**` нэмнэ. Имэйл баталгаажуулах горимыг шалгана.
+2. Өөрийн и-мэйлээр сайтад эхлээд бүртгүүлээд, дээрх trusted SQL Editor админ нэмэх SQL-д зөвхөн тэр и-мэйлээ оруулж ажиллуулна. Оюутны эрхтэй бүх шинэ хэрэглэгч өөрийн бүтээлээ нэмэх боломжтой, админ зөвхөн баталсан бүтээлийг нийтэлнэ.
+
+Зургийн эх сурвалж: хэрэглэгчийн өгсөн материал. Лиценз: сургалтын зорилгоор; зургийн эрхийг агуулга эзэмшигчээс тодруулна уу.
