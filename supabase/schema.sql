@@ -41,6 +41,8 @@ create table if not exists public.events (
  type text,
  venue text,
  cover_image_url text,
+ coordinator_teacher_id text constraint events_coordinator_teacher_id_fkey references public.teachers(id) on update cascade on delete set null,
+ created_by uuid constraint events_created_by_fkey references public.profiles(id) on update cascade on delete set null,
  created_at timestamptz not null default now()
 );
 create table if not exists public.event_photos (
@@ -56,9 +58,11 @@ create table if not exists public.exhibits (
  description text not null,
  image_url text,
  category text,
+ category_id uuid constraint exhibits_category_id_fkey references public.exhibition_categories(id) on update cascade on delete set null,
  technology_stack text[] not null default '{}',
  year_created integer check (year_created between 1964 and 2100),
  creator_id uuid not null references auth.users(id) on delete cascade,
+ constraint exhibits_creator_profile_fkey foreign key (creator_id) references public.profiles(id) on update cascade on delete cascade,
  demo_url text,
  github_url text,
  status text not null default 'pending' check(status in ('draft','pending','published')),
@@ -70,11 +74,16 @@ create table if not exists public.milestones (
  year integer not null,
  title text not null,
  description text,
+ related_event_id text constraint milestones_related_event_id_fkey references public.events(id) on update cascade on delete set null,
  created_at timestamptz not null default now(),
  unique(year,title)
 );
 create index if not exists exhibits_status_year_idx on public.exhibits(status,year_created desc);
 create index if not exists exhibits_creator_idx on public.exhibits(creator_id);
+create index if not exists exhibits_category_id_idx on public.exhibits(category_id);
+create index if not exists events_coordinator_teacher_id_idx on public.events(coordinator_teacher_id);
+create index if not exists events_created_by_idx on public.events(created_by);
+create index if not exists milestones_related_event_id_idx on public.milestones(related_event_id);
 create index if not exists events_date_idx on public.events(event_date desc);
 create index if not exists event_photos_event_idx on public.event_photos(event_id);
 
