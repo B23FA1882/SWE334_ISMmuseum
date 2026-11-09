@@ -11,7 +11,7 @@ export function CircularGallery({items = [], radius = 420, autoRotateSpeed = .09
     id=requestAnimationFrame(tick);return()=>cancelAnimationFrame(id);
   },[paused,autoRotateSpeed,items.length]);
   if(!items.length) return <p>Одоогоор үзүүлэх зураг алга.</p>;
-  return <div className={'gallery-stage '+className} role="region" aria-label="3 хэмжээст интерактив зургийн цомог" onMouseEnter={()=>setPaused(true)} onMouseLeave={()=>setPaused(false)} onTouchStart={e=>{touch.current=e.touches[0].clientX;setPaused(true);}} onTouchMove={e=>{if(touch.current!==null){const now=e.touches[0].clientX;update(rot.current+(now-touch.current)*.35);touch.current=now;}}} onTouchEnd={()=>{touch.current=null;setPaused(false);}}>
+  return <div className={'gallery-stage '+className} role="region" aria-label="3 хэмжээст интерактив зургийн цомог" onMouseEnter={()=>setPaused(true)} onMouseLeave={()=>setPaused(false)} onWheel={e=>update(rot.current+e.deltaY*.12)} onPointerDown={e=>{if(e.target.closest('button'))return;e.currentTarget.setPointerCapture(e.pointerId);touch.current=e.clientX;setPaused(true);}} onPointerMove={e=>{if(touch.current!==null){const now=e.clientX;update(rot.current+(now-touch.current)*.35);touch.current=now;}}} onPointerUp={()=>{touch.current=null;setPaused(false);}} onPointerCancel={()=>{touch.current=null;setPaused(false);}}>
   <div className="gallery-ring" style={{transform:`rotateY(${rotation}deg)`}}>
     {items.map((item,i)=>{
       const theta=360*i/items.length, diff=Math.abs(((theta+rotation)%360+540)%360-180);
