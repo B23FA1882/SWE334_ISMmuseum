@@ -21,7 +21,8 @@ function App(){
   else setNotice('');
   setData(Object.fromEntries(collections.map((t,i)=>[t,results[i].data||[]])));setLoading(false);
  }
- useEffect(()=>{if(!supabase)return;refresh();supabase.auth.getUser().then(({data:{user}})=>setUser(user||null));const {data:{subscription}}=supabase.auth.onAuthStateChange((_event,session)=>setUser(session?.user||null));return ()=>subscription.unsubscribe();},[]);
+ useEffect(()=>{if(!supabase)return;supabase.auth.getUser().then(({data:{user}})=>setUser(user||null));const {data:{subscription}}=supabase.auth.onAuthStateChange((_event,session)=>setUser(session?.user||null));return ()=>subscription.unsubscribe();},[]);
+ useEffect(()=>{if(supabase)refresh();},[user?.id]);
  useEffect(()=>{if(!supabase||!user){setIsAdmin(false);return;}supabase.from('museum_admins').select('user_id').eq('user_id',user.id).maybeSingle().then(({data})=>setIsAdmin(Boolean(data)));},[user?.id]);
  const signOut=async()=>{await supabase?.auth.signOut();navigate('/');};
  const context={...data,user,isAdmin,refresh,loading,setNotice};
